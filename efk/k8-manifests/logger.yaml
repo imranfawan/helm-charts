@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: logger-po
+  name: logger-po
+spec:
+  containers:
+  - image: imranawan/logger:latest
+    name: critical-error

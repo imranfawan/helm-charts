@@ -1,0 +1,126 @@
+
+elasticsearch:
+  replicas: 2
+  persistence:
+    enabled: false
+
+elastalert:
+  enabled: false
+
+
+  replicaCount: 2
+
+  elasticsearch:
+    persistence:
+      enabled: false
+    host: elasticsearch
+    port: 9200
+
+  realertIntervalMins: "0"
+
+  rules:
+    k8s_logs_critical-errors: |-
+      ---
+      name: Critial Errors
+      index: logstash-*
+
+      type: any
+
+      filter:
+      - query:
+          query_string:
+            query: "kubernetes.pod_name: counter"  
+            analyze_wildcard: true
+
+      alert:
+      - "slack"
+
+      slack:
+      slack_title: Critial Errors
+      slack_webhook_url: <SLACK_WEB_HOOK_TOKEN>
+      slack_msg_color: warning
+
+    k8s_logs_warning: |-
+      ---
+      name: Warning
+      index: logstash-*
+
+      type: any
+
+      filter:
+      - query:
+          query_string:
+            query: "kubernetes.container_name: warning"  
+            analyze_wildcard: true
+
+      alert:
+      - "slack"
+
+      slack:
+      slack_title: Warning
+      slack_webhook_url: <SLACK_WEB_HOOK_TOKEN>
+      slack_msg_color: warning
+
+
+
+elasticsearch-curator:
+
+  enabled: false
+  cronjob:
+    # At 01:00 every day
+    schedule: "*/5 * * * *"
+    annotations: {}
+    labels: {}
+    concurrencyPolicy: ""
+    failedJobsHistoryLimit: ""
+    successfulJobsHistoryLimit: ""
+    jobRestartPolicy: Never
+
+  configMaps:
+    # Delete indices older than 7 days
+    action_file_yml: |-
+      ---
+      actions:
+        1:
+          action: delete_indices
+          description: "Clean up ES by deleting old indices"
+          options:
+            timeout_override:
+            continue_if_exception: False
+            disable_action: False
+            ignore_empty_list: True
+          filters:
+          - filtertype: pattern
+            kind: regex
+            value: '^logstash-*$'
+          - filtertype: age
+            source: name
+            direction: older
+            timestring: '%Y.%m.%d'
+            unit: days
+            unit_count: 1
+            field:
+            stats_result:
+            epoch:
+            exclude: False
+    # Having config_yaml WILL override the other config
+    config_yml: |-
+      ---
+      client:
+        hosts:
+          - elasticsearch
+        port: 9200
+        # url_prefix:
+        # use_ssl: True
+        # certificate:
+        # client_cert:
+        # client_key:
+        # ssl_no_validate: True
+        # http_auth:
+        # timeout: 30
+        # master_only: False
+      # logging:
+      #   loglevel: INFO
+      #   logfile:
+      #   logformat: default
+      #   blacklist: ['elasticsearch', 'urllib3']

@@ -1,0 +1,17 @@
+dependencies:
+  - name: elasticsearch
+    repository: https://helm.elastic.co
+    version: 7.9.0
+    condition: elasticsearch.enabled
+  - name: kibana
+    repository: https://helm.elastic.co
+    version: 7.9.0
+    condition: kibana.enabled
+  - name: elasticsearch-curator
+    repository: https://kubernetes-charts.storage.googleapis.com
+    version: 2.1.3
+    condition: elasticsearch-curator.enabled
+  - name: elastalert
+    repository: https://kubernetes-charts.storage.googleapis.com
+    version: 1.2.3
+    condition: elastalert.enabled

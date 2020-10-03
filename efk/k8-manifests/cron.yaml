@@ -1,0 +1,23 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  labels:
+    run: cron-logger
+  name: cron-logger
+spec:
+  concurrencyPolicy: Allow
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+    spec:
+      template:
+        metadata:
+          labels:
+            run: cron-logger
+        spec:
+          containers:
+          - image: busybox
+            name: cron-logger
+            args: [/bin/sh, -c,'i=0; while true; do echo "$i: $(date)"; i=$((i+1)); sleep 1; done']
+          restartPolicy: Never
+  schedule: '0 * * * *'
