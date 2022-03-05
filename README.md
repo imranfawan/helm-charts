@@ -76,6 +76,10 @@ Several kubernetes resources are now deployed as follows after installing the ch
 
 Once deployed you should see a Deployment created called 'secret-manager'. This is the deployment that belongs to the controller
 
+```bash
+NAME          	NAMESPACE     	REVISION	UPDATED                                	STATUS  	CHART                            	APP VERSION
+secret-manager	secret-manager	1       	2022-03-05 17:31:33.120666889 +0000 UTC	deployed	k8s-secret-manager-operator-1.0.0	1.0.0     
+```
 
 ## Deploying the SecretManager Resource
 
