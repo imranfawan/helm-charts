@@ -73,7 +73,7 @@ Several kubernetes resources are now deployed as follows after installing the ch
 * Custom Resource Definition (CRD)
 * Deployment (This deployment scans any resources that are of type secretmanager as per the CRD. Any new resources of this type it will create a k8s secret)
 * ClusterRole - To give permissions to the operator to read / write secrets
-* ClusterROleBinding - The IAM service account is binded to the cluster role.
+* ClusterRoleBinding - The IAM service account is binded to the cluster role.
 
 Once deployed you should see a Deployment created called 'secret-manager'. This is the deployment that belongs to the operator
 
