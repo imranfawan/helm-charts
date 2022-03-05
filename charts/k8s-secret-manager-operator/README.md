@@ -108,7 +108,7 @@ kubectl create -f <name_of_secret_manager_manifest>.yaml -n <namspace>
 You should now see a new resource of type 'SecretManager' as below:
 
 ```bash
-kubectl get secretmanager -n demo
+kubectl get secretmanager -n <namspace>
 ```
 
 ## Verify the K8s Secret is created.
