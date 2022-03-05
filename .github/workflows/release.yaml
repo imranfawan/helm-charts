@@ -1,4 +1,4 @@
-name: Helm Publish
+name: Release Charts
 
 on:
   push:
@@ -6,10 +6,24 @@ on:
       - main
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: J12934/helm-gh-pages-action@main
-        with:
-          access-token: ${{ secrets.ACCESS_TOKEN }}
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+      # See https://github.com/helm/chart-releaser-action/issues/6
+      - name: Install Helm
+        run: |
+          curl -sSLo get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get
+          chmod 700 get_helm.sh
+          ./get_helm.sh
+          helm init --client-only
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1.0.0-alpha.2
+        env:
+          CR_TOKEN: "${{ secrets.CR_TOKEN }}"
