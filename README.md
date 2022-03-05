@@ -33,7 +33,7 @@ Note that the IAM policy belonging to the <IAM_ROLE_ARN> must already exist in A
 
 The raw helm templates are in the repository, however the simplest way to deploy the chart is to pull it from github and execute against your customised 'values.yaml' file. Below are the steps: 
 
-Ensure the abpve pre-requisites is done first, which is to ensure you have created a iam service account.
+Ensure the above pre-requisites is done first, which is to ensure you have created a iam service account.
 
 1) Customise the values.yaml as appropriate.
 
