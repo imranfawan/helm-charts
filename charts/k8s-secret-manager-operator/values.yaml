@@ -9,9 +9,7 @@ image:
 aws:
   accountId: "<account_id>"
 
-
 serviceAccountName: read-aws-secrets
-
 
 rbac:
  clusterRoleName: read-aws-secrets
