@@ -33,7 +33,7 @@ Note that the IAM policy belonging to the <IAM_ROLE_ARN> must already exist in A
 
 The raw helm templates are in the repository, however the simplest way to deploy the chart is to pull it from github and execute against your customised 'values.yaml' file. Below are the steps: 
 
-Ensure the abpve pre-requisites is done first, which is to ensure you have created a iam service account.
+Ensure the above pre-requisites is done first, which is to ensure you have created a iam service account.
 
 1) Customise the values.yaml as appropriate.
 
@@ -105,6 +105,13 @@ Replace the placholders as appropriate and execute in desired namespace as follo
 kubectl create -f <name_of_secret_manager_manifest>.yaml -n <namspace>
 ```
 
+You should now see a new resource of type 'SecretManager' as below:
+
+```bash
+kubectl get secretmanager -n demo
+```
+
+## Verify the K8s Secret is created.
 Once a resource of type SecretManager is created as above, the controller will pick this up and create a corresponding kubernetes secret as per the name of the SecretManager resource.
 
 Finally verify the kubernetes secret is created along with its correct content as below:

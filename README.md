@@ -105,6 +105,13 @@ Replace the placholders as appropriate and execute in desired namespace as follo
 kubectl create -f <name_of_secret_manager_manifest>.yaml -n <namspace>
 ```
 
+You should now see a new resource of type 'SecretManager' as below:
+
+```bash
+kubectl get secretmanager -n demo
+```
+
+## Verify the K8s Secret is created.
 Once a resource of type SecretManager is created as above, the controller will pick this up and create a corresponding kubernetes secret as per the name of the SecretManager resource.
 
 Finally verify the kubernetes secret is created along with its correct content as below:
