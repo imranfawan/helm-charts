@@ -4,7 +4,7 @@ replicaCount: 1
 image:
   registry: imranawan/k8s-secret-manager-operator
   tag: 1.0.0
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 aws:
   accountId: "<account_id>"
