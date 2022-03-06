@@ -36,7 +36,7 @@ eksctl create iamserviceaccount \
               --attach-policy-arn <IAM_ROLE_ARN> --approve 
 ```
 
-Note that the IAM policy belonging to the <IAM_ROLE_ARN> must already exist in AWS and it must have permissions to read the desired secrets. This is required so that any service account created with this IAM service account is able to read the desired AWS secrets. Also ensure the <NAMESPACE> is the same namespace where the operator helm chart will be deployed to.
+Note that the IAM policy belonging to the <IAM_ROLE_ARN> must already exist in AWS and it must have permissions to read the desired secrets. This is required so that any service account created with this IAM service account is able to read the desired AWS secrets. Also ensure the IAM service account's namespace is in the same namespace as the operator's (steps below to deploy operator)
 
 
 ## Deploying the Helm Chart
@@ -45,7 +45,7 @@ The simplest way to deploy the chart is to pull it from github. Below are the st
 
 Ensure the above pre-requisites is done first, which is to ensure you have created a IAM service account.
 
-In the command below, remeber to replace <AWS_ACCOUNT_ID>, <NAMESPACE> and <IAM_SERVICE_ACCOUNT> with your AWS Account ID and IAM Service Account (created above in pre-requisites).
+In the command below, remember to replace <AWS_ACCOUNT_ID> and <IAM_SERVICE_ACCOUNT> with your AWS Account ID and IAM Service Account (created above in pre-requisites).
 
 Below are the commands to run the chart.
 
