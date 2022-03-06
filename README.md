@@ -36,37 +36,18 @@ eksctl create iamserviceaccount \
               --attach-policy-arn <IAM_ROLE_ARN> --approve 
 ```
 
-Note that the IAM policy belonging to the <IAM_ROLE_ARN> must already exist in AWS and it must have permissions to read the desired secrets. This is required so that any account created with this IAM service account is able to read the desired AWS secrets. Also ensure the <NAMESPACE> is the same namespace where the operator helm chart will be deployed to.
+Note that the IAM policy belonging to the <IAM_ROLE_ARN> must already exist in AWS and it must have permissions to read the desired secrets. This is required so that any service account created with this IAM service account is able to read the desired AWS secrets. Also ensure the <NAMESPACE> is the same namespace where the operator helm chart will be deployed to.
 
 
 ## Deploying the Helm Chart
 
-The raw helm templates are in the repository, however the simplest way to deploy the chart is to pull it from github and execute against your customised 'values.yaml' file. Below are the steps: 
+The simplest way to deploy the chart is to pull it from github. Below are the steps: 
 
-Ensure the above pre-requisites is done first, which is to ensure you have created a iam service account.
+Ensure the above pre-requisites is done first, which is to ensure you have created a IAM service account.
 
-1) Customise the values.yaml as appropriate.
+In the command below, remeber to replace <AWS_ACCOUNT_ID>, <NAMESPACE> and <IAM_SERVICE_ACCOUNT> with your AWS Account ID and IAM Service Account (created above in pre-requisites).
 
-```bash
-replicaCount: 1
-
-image:
-  registry: imranawan/k8s-secret-manager-operator
-  tag: 1.0.0
-  pullPolicy: Always
-
-aws:
-  accountId: "<account_id>"
-
-serviceAccountName: read-aws-secrets
-
-rbac:
- clusterRoleName: read-aws-secrets
-
-```
-
-When running the Helm chart you will need to override the AWS Account ID and the name of the IAM service account in the values.yaml file. Remeber to replace <AWS_ACCOUNT_ID> and
-<IAM_SERVICE_ACCOUNT> with your AWS Account ID and IAM Service Account created above. Below are the commands to run the chart.
+Below are the commands to run the chart.
 
 ```bash
 helm repo add imranfawan https://imranfawan.github.io/helm-charts/
@@ -77,14 +58,13 @@ helm upgrade  --install secret-manager \
               imranfawan/k8s-secret-manager-operator --namespace <NAMESPACE>
 ```
 
-Other than the AWS account ID, you can leave the values as they are. However ensure that the IAM service account you created in the pre-requisites matches serviceAcountName in the values.yaml file. In this case it is set as 'read-aws-secrets'.
+Alternatively you can copy the 'values.yaml' from this repository, customise the values and run against it. Other than the AWS account ID, you can leave the values as they are. However ensure that the IAM service account you created in the pre-requisites matches serviceAcountName in the values.yaml file. In this case the default is set to 'read-aws-secrets'.
 
 Once the values.yaml file is amended accordingly you can deploy the chart as follows:
 
 ```bash
 helm upgrade --install secret-manager imranfawan/k8s-secret-manager-operator --namespace <NAMESPACE> -f </path_to_your_values.yaml>
 ```
-
 
 Several kubernetes resources are now deployed as follows after installing the chart: 
 
