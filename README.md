@@ -16,6 +16,16 @@ Any pod that uses such a service account will inherit the IAM role credentials t
 
 Below are the steps to create an IAM role service account using [eksctl](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html)
 
+Ensure you have installed the eksctl cli. 
+
+First associate the oidc provider to your cluster:
+
+```bash
+eksctl utils associate-iam-oidc-provider \
+                --name <CLUSTER_NAME> \
+                --approve \
+```
+
 Run the following to create the 'iamserviceaccount'
 
 ```bash
@@ -119,3 +129,30 @@ Finally verify the kubernetes secret is created along with its correct content a
 ```bash
 kubectl get secret <secret_name> -o yaml -n <namspace>
 ```
+
+## Useful Tasks
+
+TO delete the IAM service account, execute the following: 
+
+```bash
+eksctl delete iamserviceaccount --cluster <CLUSTER_NAME> <IAM_SERVICE_ACCOUNT_NAME>
+```
+
+You can minismise the polling the operator does to the K8s API server by de-scaling its Deployment to 0, and scale back to 1 whenever you need to create a K8s secret.
+
+To scale to 0:
+
+```bash
+kubectl scale --replicas=0 deployment/<deployment_name> -n <namespace>
+```
+
+To scale to 1:
+
+```bash
+kubectl scale --replicas=1 deployment/<deployment_name> -n <namespace>
+```
+
+
+## Useful Links
+
+It's possible specify the IAM accounts to be created in the EKS Cluster configuration. You can find more on [IAM Roles for Service Accounts](https://eksctl.io/usage/iamserviceaccounts/)
