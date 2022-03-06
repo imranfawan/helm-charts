@@ -2,9 +2,10 @@
 apiVersion: kubernetes-client.io/v1
 kind: SecretManager
 metadata:
-  name: staging-vmd-services
+  name: <SECRET_NAME>           # Name of the SecretManager resource. Note, that the k8s secret created will also take this name.
 spec:
-  awsSecret: staging/vmd-services
-  region: eu-west-2
-  namespace: demo
-  secretType: opaque
+  awsSecret: <AWS_SECRET_NAME>  # Name of the secret in AWS Secret Manager
+  region: <AWS_REGION>          # Region of where the AWS secret is located e.g eu-west-2
+  namespace: <NAMESPACE>        # Namespace of where the k8s secret will be created
+  secretType: <SECRET_TYPE>     # The type of secret to be created e.g opaque or docker
+```
