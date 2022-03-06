@@ -11,6 +11,5 @@ aws:
 
 serviceAccountName: read-aws-secrets
 
-
 rbac:
  clusterRoleName: read-aws-secrets
