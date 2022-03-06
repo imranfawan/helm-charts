@@ -30,7 +30,7 @@ Run the following to create the 'iamserviceaccount'
 
 ```bash
 eksctl create iamserviceaccount \
-              --name <SERVICE_ACCOUNT> \
+              --name <IAM_SERVICE_ACCOUNT> \
               --namespace <NAMESPACE> \
               --cluster <CLUSTER_> \
               --attach-policy-arn <IAM_ROLE_ARN> --approve 
@@ -65,18 +65,26 @@ rbac:
 
 ```
 
-Other than the AWS account ID, you can leave the values as they are. However ensure that the IAM service account you created in the pre-requisites matches serviceAcountName in the values.yaml file. In this case it is set as 'read-aws-secrets'.
-
-Once the values.yaml file is amended accordingly you can deploy the chart as follows:
-
+When running the Helm chart you will need to override the AWS Account ID and the name of the IAM service account in the values.yaml file. Remeber to replace <AWS_ACCOUNT_ID> and
+<IAM_SERVICE_ACCOUNT> with your AWS Account ID and IAM Service Account created above. Below are the commands to run the chart.
 
 ```bash
 helm repo add imranfawan https://imranfawan.github.io/helm-charts/
 helm repo update
-helm upgrade --install secret-manager imranfawan/k8s-secret-manager-operator --namespace secret-manager -f values.yaml
+helm upgrade  --install secret-manager \
+              --set aws.accountId=<AWS_ACCOUNT_ID> \
+              --set serviceAccountName=<IAM_SERVICE_ACCOUNT> \
+              imranfawan/k8s-secret-manager-operator --namespace <NAMESPACE>
 ```
 
-You can deploy to your desired namespace. In the above example the chart is deployed to a namespace called 'secret-manager'.
+Other than the AWS account ID, you can leave the values as they are. However ensure that the IAM service account you created in the pre-requisites matches serviceAcountName in the values.yaml file. In this case it is set as 'read-aws-secrets'.
+
+Once the values.yaml file is amended accordingly you can deploy the chart as follows:
+
+```bash
+helm upgrade --install secret-manager imranfawan/k8s-secret-manager-operator --namespace <NAMESPACE> -f </path_to_your_values.yaml>
+```
+
 
 Several kubernetes resources are now deployed as follows after installing the chart: 
 
