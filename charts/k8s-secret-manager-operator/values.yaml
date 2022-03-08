@@ -4,12 +4,13 @@ replicaCount: 1
 image:
   registry: imranawan/k8s-secret-manager-operator
   tag: v1.0.0
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 aws:
-  accountId: "<account_id>"
+  accountId: "<accountId>"
 
-serviceAccountName: "<iam_service_name>"
+serviceAccountName: read-secrets
 
 rbac:
  clusterRoleName: read-aws-secrets
+ clusterBindingNamespace: <clusterBindingNamespace>

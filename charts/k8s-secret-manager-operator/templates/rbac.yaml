@@ -16,7 +16,7 @@ items:
     subjects:
     - kind: ServiceAccount
       name: {{ .Values.serviceAccountName }}
-      namespace: secret-manager
+      namespace: {{ .Values.rbac.clusterBindingNamespace }}
     roleRef:
       kind: ClusterRole
       name: {{ .Values.rbac.clusterRoleName }}

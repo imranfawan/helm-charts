@@ -55,6 +55,7 @@ helm repo update
 helm upgrade  --install secret-manager \
               --set aws.accountId=<AWS_ACCOUNT_ID> \
               --set serviceAccountName=<IAM_SERVICE_ACCOUNT> \
+              --set rbac.clusterBindingNamespace=<NAMESPACE> \
               imranfawan/k8s-secret-manager-operator --namespace <NAMESPACE>
 ```
 

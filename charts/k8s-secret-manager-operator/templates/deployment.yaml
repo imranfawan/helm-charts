@@ -1,28 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: secret-manager
+  name: secrets-manager
   labels:
-    app: secret-manager
+    app: secrets-manager
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: secret-manager
+      app: secrets-manager
   template:
     metadata:
       labels:
-        app: secret-manager
+        app: secrets-manager
     spec:
       serviceAccountName: {{ .Values.serviceAccountName }}
       containers:
       - name: proxycontainer
         image: lachlanevenson/k8s-kubectl
         command: ["kubectl","proxy","--port=8001"]
-      - name: secret-manager
+      - name: secrets-manager
         image: {{ .Values.image.registry }}:{{ .Values.image.tag }}
         env:
         - name: AWS_ACCOUNT
           value: "{{ .Values.aws.accountId }}"
         command: [ "python3", "/app/k8s-secret-from-aws-secret-mgr.py"]
+        args: [ "while true; do sleep 30; done;" ]
         imagePullPolicy: {{ .Values.image.pullPolicy }}
