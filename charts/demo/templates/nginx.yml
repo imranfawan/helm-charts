@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+    #nodePort: 30007
+  #type: NodePort
+  selector:
+    app: nginx
+---
+  apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      #kubernetes.io/ingress.class: istio
+    name: ingress-nginx
+  spec:
+    rules:
+    - host: mydemo.imranawan.co.uk
+      http:
+        paths:
+        - pathType: Prefix
+          backend:
+            service: 
+              name: nginx-svc
+              port:
+                number: 80
+          path: /
+    tls:
+    - hosts:
+      - mydemo.imranawan.co.uk
+      secretName: nginx-tls
+
+    
