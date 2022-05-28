@@ -3,7 +3,7 @@
 
 ## About this Chart
 
-This repoistory contains the helm chart templates that deploys a kubernetes 'Operator' for the purpose of dynamically creating a kubernetes secret bases on a given AWS secret.
+This repoistory contains the helm chart templates that deploys a kubernetes 'Operator' for the purpose of dynamically creating a kubernetes secret based on a given AWS secret.
 
 The operator dynamically scans a newly created custom CRD resource (secretmanager) that defines
 which AWS secret to fetch. The operator will then automatically create a new kubernetes secret based on the AWS secret that was fetched.
